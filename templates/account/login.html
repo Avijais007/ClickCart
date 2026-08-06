@@ -1,0 +1,61 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% trans "Sign In to ClickCart" %}{% endblock %}
+
+{% block content %}
+  <main style="min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center;">
+    <div class="container">
+      <section class="mb-4">
+        <div class="row wow fadeIn">
+          <div class='col-md-6 offset-md-3'>
+            <div style="background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2);">
+              <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="color: #667eea; font-weight: bold; margin: 0;">ClickCart</h2>
+                <p style="color: #999; font-size: 14px;">Your Premium E-Commerce Destination</p>
+              </div>
+              
+              <h3 style="text-align: center; color: #333; margin-bottom: 10px;">{% trans "Welcome Back!" %}</h3>
+              <p style="text-align: center; color: #999; margin-bottom: 30px;">{% trans "Sign in to access your account and continue shopping" %}</p>
+
+              {% get_providers as socialaccount_providers %}
+
+              {% if socialaccount_providers %}
+              <div class="socialaccount_ballot" style="margin-bottom: 30px;">
+                <ul class="socialaccount_providers">
+                  {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </ul>
+                <div class="login-or" style="text-align: center; color: #ccc; margin: 20px 0;">{% trans 'or' %}</div>
+              </div>
+              {% endif %}
+
+              <form class="login" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <button class="btn btn-primary btn-block" style="background-color: #667eea; border: none; padding: 12px; font-weight: bold; margin: 15px 0;" type="submit">{% trans "Sign In" %}</button>
+              </form>
+              
+              <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p style="color: #666; margin-bottom: 10px;">{% trans "Don't have an account?" %}</p>
+                <a class="btn btn-outline-primary btn-block" href="{{ signup_url }}" style="margin-bottom: 10px;">{% trans "Create ClickCart Account" %}</a>
+              </div>
+              
+              <div style="text-align: center; margin-top: 15px;">
+                <a href="{% url 'account_reset_password' %}" style="color: #667eea; text-decoration: none; font-size: 14px;">{% trans "Forgot your password?" %}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+      </section>
+    </div>
+  </main>
+
+{% endblock %}
