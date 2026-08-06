@@ -43,5 +43,12 @@ DATABASES = {
     }
 }
 
-STRIPE_PUBLIC_KEY = config('STRIPE_TEST_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_TEST_SECRET_KEY')
+STRIPE_PUBLIC_KEY = config(
+    "STRIPE_TEST_PUBLIC_KEY",
+    default="pk_test_dummy_key"
+)
+
+STRIPE_SECRET_KEY = config(
+    "STRIPE_TEST_SECRET_KEY",
+    default="sk_test_dummy_key"
+)
