@@ -1,7 +1,14 @@
 from .base import *
 
 DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in config(
+        'ALLOWED_HOSTS',
+        default='.vercel.app,localhost,127.0.0.1'
+    ).split(',')
+    if host.strip()
+]
 
 INSTALLED_APPS += [
     'debug_toolbar'
