@@ -1,3 +1,6 @@
+import shutil
+import tempfile
+
 from .base import *
 
 DEBUG = True
@@ -43,10 +46,17 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_toolbar
 }
 
+DATABASE_PATH = os.path.join(BASE_DIR, 'db.sqlite3')
+if os.environ.get('VERCEL'):
+    DATABASE_PATH = os.path.join(tempfile.gettempdir(), 'clickcart.sqlite3')
+    seed_database = os.path.join(BASE_DIR, 'db.sqlite3')
+    if os.path.exists(seed_database) and not os.path.exists(DATABASE_PATH):
+        shutil.copyfile(seed_database, DATABASE_PATH)
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': DATABASE_PATH,
     }
 }
 
